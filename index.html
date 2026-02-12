@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vườn Hoa Tài Nguyên Số - Mầm Non Minh Đức</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(to bottom, #BAE6FD 0%, #E0F2FE 60%, #BBF7D0 100%);
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        /* Tùy chỉnh thanh cuộn xinh xắn */
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(34, 197, 94, 0.4);
+          border-radius: 10px;
+          border: 2px solid transparent;
+          background-clip: content-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(34, 197, 94, 0.6);
+        }
+        
+        /* Hiệu ứng gió thổi nhẹ cho cành hoa */
+        @keyframes windSway {
+          0%, 100% { transform: rotate(-2.5deg); }
+          50% { transform: rotate(2.5deg); }
+        }
+        
+        /* Hiệu ứng cánh hoa rung rinh nhẹ nhàng */
+        @keyframes petalDance {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+        }
+
+        .flower-animated {
+          animation: windSway 4s ease-in-out infinite;
+          transform-origin: bottom center;
+        }
+        
+        .petals-animated {
+          animation: petalDance 3s ease-in-out infinite;
+          transform-origin: center center;
+        }
+
+        @keyframes beeFloat {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          25% { transform: translate(15vw, -10vh) rotate(5deg); }
+          50% { transform: translate(30vw, 5vh) rotate(-5deg); }
+          75% { transform: translate(15vw, 15vh) rotate(5deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        @keyframes butterflyFloat {
+          0% { transform: translate(0, 0) scaleX(1); }
+          45% { transform: translate(-20vw, -15vh) scaleX(1); }
+          50% { transform: translate(-20vw, -15vh) scaleX(-1); }
+          95% { transform: translate(0, 0) scaleX(-1); }
+          100% { transform: translate(0, 0) scaleX(1); }
+        }
+        .bee-animate { animation: beeFloat 18s linear infinite; position: absolute; left: 5vw; top: 15vh; z-index: 20; }
+        .butterfly-animate { animation: butterflyFloat 22s ease-in-out infinite; position: absolute; right: 10vw; top: 20vh; z-index: 20; }
+        
+        .ground-hill {
+          position: fixed;
+          bottom: -15vh;
+          left: -10%;
+          width: 120%;
+          height: 35vh;
+          background: linear-gradient(to bottom, #4ADE80, #16A34A);
+          border-radius: 50% 50% 0 0;
+          z-index: 10;
+          box-shadow: 0 -10px 40px rgba(34, 197, 94, 0.3);
+        }
+        .text-handdrawn {
+          color: #334155;
+          text-shadow: 2px 2px 0px rgba(255,255,255,0.9);
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
