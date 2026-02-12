@@ -3,48 +3,54 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vườn Hoa Tài Nguyên Số - Mầm Non Minh Đức</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+          --garden-green: #16A34A;
+          --sky-blue: #BAE6FD;
+        }
+
         body {
             font-family: 'Quicksand', sans-serif;
             background: linear-gradient(to bottom, #BAE6FD 0%, #E0F2FE 60%, #BBF7D0 100%);
-            overflow: hidden;
             margin: 0;
             padding: 0;
             height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #root {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
         }
 
         /* Tùy chỉnh thanh cuộn xinh xắn */
         .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.1);
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(34, 197, 94, 0.4);
+          background: rgba(22, 163, 74, 0.3);
           border-radius: 10px;
-          border: 2px solid transparent;
-          background-clip: content-box;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(34, 197, 94, 0.6);
         }
         
         /* Hiệu ứng gió thổi nhẹ cho cành hoa */
         @keyframes windSway {
-          0%, 100% { transform: rotate(-2.5deg); }
-          50% { transform: rotate(2.5deg); }
+          0%, 100% { transform: rotate(-2deg); }
+          50% { transform: rotate(2deg); }
         }
         
-        /* Hiệu ứng cánh hoa rung rinh nhẹ nhàng */
         @keyframes petalDance {
           0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
+          50% { transform: scale(1.03); }
         }
 
         .flower-animated {
@@ -59,35 +65,40 @@
 
         @keyframes beeFloat {
           0% { transform: translate(0, 0) rotate(0deg); }
-          25% { transform: translate(15vw, -10vh) rotate(5deg); }
-          50% { transform: translate(30vw, 5vh) rotate(-5deg); }
-          75% { transform: translate(15vw, 15vh) rotate(5deg); }
+          25% { transform: translate(10vw, -5vh) rotate(5deg); }
+          50% { transform: translate(20vw, 2vh) rotate(-5deg); }
+          75% { transform: translate(10vw, 10vh) rotate(5deg); }
           100% { transform: translate(0, 0) rotate(0deg); }
         }
-        @keyframes butterflyFloat {
-          0% { transform: translate(0, 0) scaleX(1); }
-          45% { transform: translate(-20vw, -15vh) scaleX(1); }
-          50% { transform: translate(-20vw, -15vh) scaleX(-1); }
-          95% { transform: translate(0, 0) scaleX(-1); }
-          100% { transform: translate(0, 0) scaleX(1); }
+        
+        .bee-animate { 
+          animation: beeFloat 15s linear infinite; 
+          position: absolute; 
+          left: 10%; 
+          top: 20%; 
+          z-index: 20; 
+          pointer-events: none;
         }
-        .bee-animate { animation: beeFloat 18s linear infinite; position: absolute; left: 5vw; top: 15vh; z-index: 20; }
-        .butterfly-animate { animation: butterflyFloat 22s ease-in-out infinite; position: absolute; right: 10vw; top: 20vh; z-index: 20; }
         
         .ground-hill {
-          position: fixed;
-          bottom: -15vh;
+          position: absolute;
+          bottom: -10vh;
           left: -10%;
           width: 120%;
-          height: 35vh;
+          height: 30vh;
           background: linear-gradient(to bottom, #4ADE80, #16A34A);
           border-radius: 50% 50% 0 0;
           z-index: 10;
-          box-shadow: 0 -10px 40px rgba(34, 197, 94, 0.3);
+          box-shadow: 0 -5px 30px rgba(34, 197, 94, 0.2);
         }
+
         .text-handdrawn {
-          color: #334155;
-          text-shadow: 2px 2px 0px rgba(255,255,255,0.9);
+          text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+        }
+
+        /* Responsive adjustments for very small heights */
+        @media (max-height: 600px) {
+          .ground-hill { height: 20vh; bottom: -5vh; }
         }
     </style>
 <script type="importmap">
