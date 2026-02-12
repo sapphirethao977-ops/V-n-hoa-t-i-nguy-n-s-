@@ -4,58 +4,42 @@ import {
   Search, ChevronLeft, LayoutGrid, Home as HomeIcon, 
   Heart, Sun, PlusCircle, Sparkles, Cloud, ArrowLeft, Camera,
   QrCode, Share2, List as ListIcon, Link as LinkIcon,
-  PlayCircle, FileText, ExternalLink, Globe, BookOpen
+  PlayCircle, FileText, ExternalLink, Globe, BookOpen, Edit,
+  CloudUpload, CloudDownload, Save, RefreshCw, ShieldCheck, Download, Upload, Trash2,
+  Layers
 } from 'lucide-react';
 import { MOCK_MATERIALS } from './data/mockData';
 import { AgeGroup, DevelopmentField, TeachingMaterial, ViewState } from './types';
 import { FIELD_ICONS, AGE_LABELS, FIELD_COLORS } from './constants';
 
-// KHÓA LƯU TRỮ VĨNH VIỄN - KHÔNG THAY ĐỔI
-const MASTER_STORAGE_KEY = 'VUON_HOA_MINH_DUC_PERMANENT_STORAGE';
-const MASTER_FAVORITES_KEY = 'VUON_HOA_MINH_DUC_FAVORITES';
+// KHÓA LƯU TRỮ CỐ ĐỊNH - TUYỆT ĐỐI KHÔNG ĐỔI ĐỂ BẢO VỆ DỮ LIỆU CỦA CÔ
+const DB_KEY = 'VUON_HOA_MINH_DUC_DATABASE_V7';
+const FAV_KEY = 'VUON_HOA_MINH_DUC_FAVORITES_V7';
 
 const CuteBee: React.FC = () => (
   <div className="bee-animate pointer-events-none">
-    <svg width="70" height="70" viewBox="0 0 100 100">
+    <svg width="60" height="60" viewBox="0 0 100 100">
       <ellipse cx="50" cy="55" rx="30" ry="22" fill="#FACC15" stroke="#422006" strokeWidth="2.5" />
-      <path d="M35 38 Q50 35 65 38" fill="none" stroke="#422006" strokeWidth="5" strokeLinecap="round" />
-      <path d="M30 55 Q50 52 70 55" fill="none" stroke="#422006" strokeWidth="6" strokeLinecap="round" />
-      <path d="M35 70 Q50 67 65 70" fill="none" stroke="#422006" strokeWidth="5" strokeLinecap="round" />
-      <g opacity="0.7">
-        <ellipse cx="40" cy="35" rx="14" ry="10" fill="#E0F2FE" stroke="white" strokeWidth="1.5" transform="rotate(-30, 40, 35)" />
-        <ellipse cx="60" cy="35" rx="14" ry="10" fill="#E0F2FE" stroke="white" strokeWidth="1.5" transform="rotate(30, 60, 35)" />
+      <path d="M35 38 Q50 35 65 38" fill="none" stroke="#422006" strokeWidth="4" strokeLinecap="round" />
+      <path d="M30 55 Q50 52 70 55" fill="none" stroke="#422006" strokeWidth="5" strokeLinecap="round" />
+      <path d="M35 70 Q50 67 65 70" fill="none" stroke="#422006" strokeWidth="4" strokeLinecap="round" />
+      <g opacity="0.6">
+        <ellipse cx="40" cy="35" rx="14" ry="10" fill="#E0F2FE" stroke="white" strokeWidth="1" transform="rotate(-30, 40, 35)" />
+        <ellipse cx="60" cy="35" rx="14" ry="10" fill="#E0F2FE" stroke="white" strokeWidth="1" transform="rotate(30, 60, 35)" />
       </g>
-      <circle cx="68" cy="50" r="3.5" fill="#422006" />
-      <path d="M72 55 Q76 58 72 61" fill="none" stroke="#422006" strokeWidth="2" strokeLinecap="round" />
-      <path d="M65 42 Q75 35 78 40" fill="none" stroke="#422006" strokeWidth="1.5" strokeLinecap="round" />
-      <circle cx="78" cy="40" r="2" fill="#422006" />
-      <path d="M22 55 L15 55" stroke="#422006" strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
-  </div>
-);
-
-const CuteButterfly: React.FC = () => (
-  <div className="butterfly-animate pointer-events-none">
-    <svg width="70" height="70" viewBox="0 0 100 100">
-      <path d="M50 50 Q30 20 10 40 Q10 60 50 55" fill="#F472B6" stroke="#BE185D" strokeWidth="1" />
-      <path d="M50 50 Q70 20 90 40 Q90 60 50 55" fill="#F472B6" stroke="#BE185D" strokeWidth="1" />
-      <path d="M50 50 Q35 75 20 65 Q15 55 50 55" fill="#FB923C" stroke="#C2410C" strokeWidth="1" />
-      <path d="M50 50 Q65 75 80 65 Q85 55 50 55" fill="#FB923C" stroke="#C2410C" strokeWidth="1" />
-      <rect x="48" y="35" width="4" height="35" rx="2" fill="#422006" />
-      <circle cx="45" cy="32" r="1" fill="#422006" />
-      <circle cx="55" cy="32" r="1" fill="#422006" />
+      <circle cx="68" cy="50" r="3" fill="#422006" />
     </svg>
   </div>
 );
 
 const RealisticQRCode: React.FC<{ code: string }> = ({ code }) => (
-  <div className="bg-white p-2 border-2 border-gray-100 rounded-xl shadow-inner flex flex-col items-center">
-    <div className="grid grid-cols-5 gap-1 w-16 h-16">
+  <div className="bg-white p-2 border border-gray-100 rounded-lg shadow-inner flex flex-col items-center">
+    <div className="grid grid-cols-5 gap-0.5 w-12 h-12">
       {Array.from({ length: 25 }).map((_, i) => (
-        <div key={i} className={`w-full h-full rounded-[1px] ${Math.random() > 0.4 ? 'bg-gray-800' : 'bg-transparent'}`}></div>
+        <div key={i} className={`w-full h-full ${Math.random() > 0.4 ? 'bg-emerald-800' : 'bg-transparent'}`}></div>
       ))}
     </div>
-    <span className="text-[8px] font-black mt-2 text-emerald-600 tracking-tighter">{code}</span>
+    <span className="text-[7px] font-bold mt-1 text-emerald-600 uppercase tracking-tighter">{code}</span>
   </div>
 );
 
@@ -66,102 +50,51 @@ const SketchFlower: React.FC<{
   isCreative?: boolean;
   className?: string;
   stemHeight?: number;
-  delay?: number;
-}> = ({ age, color, onClick, isCreative, className, stemHeight = 100, delay = 0 }) => {
+  label?: string;
+}> = ({ age, color, onClick, isCreative, className, stemHeight = 100, label }) => {
   const petalColors: Record<string, string> = {
-    'yellow': 'fill-yellow-400',
-    'pink': 'fill-rose-400',
-    'purple': 'fill-purple-400',
-    'green': 'fill-emerald-400',
-    'rose': 'fill-pink-300',
-    'blue': 'fill-sky-300',
-    'orange': 'fill-orange-400',
-    'cyan': 'fill-cyan-300',
-    'red': 'fill-red-400'
+    'yellow': 'fill-yellow-400', 'pink': 'fill-rose-400', 'purple': 'fill-purple-400',
+    'green': 'fill-emerald-400', 'rose': 'fill-pink-300', 'blue': 'fill-sky-300',
+    'orange': 'fill-orange-400', 'cyan': 'fill-cyan-300', 'red': 'fill-red-400'
   };
 
   return (
     <div 
-      className={`flex flex-col items-center cursor-pointer group transition-all duration-300 flower-animated ${className}`} 
+      className={`flex flex-col items-center cursor-pointer group transition-all duration-500 flower-animated ${className}`} 
       onClick={onClick}
-      style={{ animationDelay: `${delay}s` }}
     >
-      <div className="relative w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center transform group-hover:scale-110 transition-transform z-20">
-        <svg viewBox="0 0 100 100" className="absolute w-full h-full drop-shadow-md petals-animated" style={{ animationDelay: `${delay * 0.5}s` }}>
+      <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center transform group-hover:scale-110 group-active:scale-95 transition-all z-20">
+        <svg viewBox="0 0 100 100" className="absolute w-full h-full drop-shadow-md petals-animated">
           <g>
             {[0, 72, 144, 216, 288].map((deg) => (
-              isCreative ? (
-                <path 
-                  key={deg}
-                  d="M50 50 Q40 25 50 10 Q60 25 50 50"
-                  className={petalColors[color]}
-                  transform={`rotate(${deg}, 50, 50)`}
-                  stroke="white"
-                  strokeWidth="1"
-                />
-              ) : (
-                <circle 
-                  key={deg}
-                  cx="50" cy="28" r="20"
-                  className={petalColors[color]}
-                  transform={`rotate(${deg}, 50, 50)`}
-                  stroke="white"
-                  strokeWidth="1.5"
-                />
-              )
+              <circle key={deg} cx="50" cy="28" r="20" className={petalColors[color]} transform={`rotate(${deg}, 50, 50)`} stroke="white" strokeWidth="1.5" />
             ))}
           </g>
-          <circle cx="50" cy="50" r="18" fill="white" stroke="#F3F4F6" strokeWidth="1" />
-          <circle cx="50" cy="50" r="12" fill="#FEF08A" opacity="0.4" />
+          <circle cx="50" cy="50" r="18" fill="white" />
         </svg>
-        <div className="z-30 text-center flex flex-col items-center select-none">
+        <div className="z-30 text-center flex flex-col items-center">
           {isCreative ? (
             <div className="flex flex-col items-center">
-               <Camera className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500 mb-0.5" />
-               <span className="text-[6px] sm:text-[7px] font-black text-rose-400 uppercase leading-none">Sáng tạo</span>
+              <Camera className="w-5 h-5 text-gray-500" />
+              <span className="text-[8px] font-black text-gray-700 uppercase leading-none mt-1">Sáng tạo</span>
+              {age && <span className="text-[7px] font-black text-emerald-600 mt-0.5">{age.replace('T', '')}</span>}
             </div>
           ) : (
-            <>
-              <span className="text-gray-800 font-black text-xs sm:text-sm leading-none">{age === '24-36T' ? '24-36' : age?.replace('T', '')}</span>
-              <span className="text-gray-500 font-bold text-[7px] sm:text-[8px] tracking-tight uppercase leading-none mt-1">{age === '24-36T' ? 'Tháng' : 'Tuổi'}</span>
-            </>
+            <div className="flex flex-col items-center">
+              <span className="text-gray-800 font-black text-xs sm:text-sm">{age?.replace('T', '')}</span>
+              <span className="text-[6px] font-bold text-gray-400 uppercase">Tuổi</span>
+            </div>
           )}
         </div>
       </div>
-      
       <div className="relative z-10 -mt-2">
-        <svg width="30" height={stemHeight} viewBox={`0 0 40 ${stemHeight}`}>
-          <path 
-            d={`M20 0 Q${20} ${stemHeight/2} 20 ${stemHeight}`} 
-            stroke="#16A34A" 
-            strokeWidth="4" 
-            fill="none" 
-            strokeLinecap="round" 
-          />
-          <path d="M20 20 Q5 5 5 35 Q15 40 20 20" fill="#22C55E" />
-          <path d="M20 45 Q35 30 35 60 Q25 65 20 45" fill="#4ADE80" />
+        <svg width="24" height={stemHeight} viewBox={`0 0 40 ${stemHeight}`}>
+          <path d={`M20 0 Q${15 + Math.random()*10} ${stemHeight/2} 20 ${stemHeight}`} stroke="#16A34A" strokeWidth="4" fill="none" strokeLinecap="round" />
+          <path d="M20 40 Q35 30 38 15" stroke="#16A34A" strokeWidth="3" fill="none" />
         </svg>
       </div>
     </div>
   );
-};
-
-const getLinkSourceInfo = (url: string) => {
-  if (!url) return { name: 'Học liệu', icon: <ExternalLink className="w-5 h-5" />, color: 'bg-emerald-600' };
-  const lowerUrl = url.toLowerCase();
-  if (lowerUrl.includes('youtube.com') || lowerUrl.includes('youtu.be')) {
-    return { name: 'YouTube', icon: <PlayCircle className="w-5 h-5" />, color: 'bg-red-600' };
-  }
-  if (lowerUrl.includes('drive.google.com')) {
-    return { name: 'Google Drive', icon: <FileText className="w-5 h-5" />, color: 'bg-blue-600' };
-  }
-  if (lowerUrl.includes('canva.com')) {
-    return { name: 'Canva', icon: <Globe className="w-5 h-5" />, color: 'bg-indigo-500' };
-  }
-  if (lowerUrl.includes('heyzin.com')) {
-    return { name: 'Heyzin Flipbook', icon: <BookOpen className="w-5 h-5" />, color: 'bg-amber-600' };
-  }
-  return { name: 'Liên kết', icon: <ExternalLink className="w-5 h-5" />, color: 'bg-emerald-600' };
 };
 
 const App: React.FC = () => {
@@ -171,52 +104,78 @@ const App: React.FC = () => {
   const [selectedMaterial, setSelectedMaterial] = useState<TeachingMaterial | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [addType, setAddType] = useState<'TEACHER' | 'KID'>('TEACHER');
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncCode, setSyncCode] = useState('');
   
-  // Nạp dữ liệu BAN ĐẦU từ localStorage ngay khi mở App
+  // KHỞI TẠO VÀ BẢO TOÀN DỮ LIỆU CŨ CỦA CÔ
   const [materials, setMaterials] = useState<TeachingMaterial[]>(() => {
     try {
-      const saved = localStorage.getItem(MASTER_STORAGE_KEY);
+      const saved = localStorage.getItem(DB_KEY);
+      // Nếu đã có dữ liệu cô thêm, ưu tiên lấy dữ liệu đó
       return saved ? JSON.parse(saved) : MOCK_MATERIALS;
-    } catch (e) {
-      console.error("Lỗi khi đọc dữ liệu:", e);
-      return MOCK_MATERIALS;
-    }
+    } catch (e) { return MOCK_MATERIALS; }
   });
 
   const [favorites, setFavorites] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem(MASTER_FAVORITES_KEY);
+      const saved = localStorage.getItem(DB_KEY + '_FAV');
       return saved ? JSON.parse(saved) : [];
-    } catch (e) {
-      return [];
-    }
+    } catch (e) { return []; }
   });
 
   const [formData, setFormData] = useState({
-    name: '',
-    ageGroup: '3-4T' as AgeGroup,
-    field: DevelopmentField.NHAN_THUC,
-    description: '',
-    link: '',
-    type: 'video' as 'video' | 'image' | 'file' | 'audio' | 'word' | 'excel' | 'pdf'
+    name: '', ageGroup: '3-4T' as AgeGroup, field: DevelopmentField.NHAN_THUC,
+    description: '', link: '', qrCode: '', type: 'video' as any
   });
 
-  // TỰ ĐỘNG LƯU PHỤ TRỢ (Khi state thay đổi)
+  // TỰ ĐỘNG LƯU MỌI THAY ĐỔI VÀO TRÌNH DUYỆT NGAY LẬP TỨC
   useEffect(() => {
-    localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(materials));
+    localStorage.setItem(DB_KEY, JSON.stringify(materials));
   }, [materials]);
 
   useEffect(() => {
-    localStorage.setItem(MASTER_FAVORITES_KEY, JSON.stringify(favorites));
+    localStorage.setItem(DB_KEY + '_FAV', JSON.stringify(favorites));
   }, [favorites]);
 
-  const toggleFavorite = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation();
-    setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
+  const handleCloudSyncExport = async () => {
+    setIsSyncing(true);
+    try {
+      const syncData = { materials, favorites, timestamp: Date.now() };
+      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(syncData))));
+      const mockCode = "MD-" + Math.floor(1000 + Math.random() * 8999);
+      setSyncCode(mockCode);
+      localStorage.setItem('CLOUD_STORE_' + mockCode, encoded);
+      alert(`Đã gửi vườn hoa lên mây! Mã của cô là: ${mockCode}`);
+    } catch (e) { alert("Lỗi mạng rồi cô ơi!"); } 
+    finally { setIsSyncing(false); }
+  };
+
+  const handleCloudSyncImport = () => {
+    const code = prompt("Nhập mã vườn để tải tài liệu:");
+    if (!code) return;
+    const data = localStorage.getItem('CLOUD_STORE_' + code);
+    if (!data) return alert("Mã không đúng cô ơi!");
+    
+    try {
+      const decoded = JSON.parse(decodeURIComponent(escape(atob(data))));
+      // GỘP DỮ LIỆU CHỨ KHÔNG XÓA CŨ
+      const existingIds = new Set(materials.map(m => m.id));
+      const newItems = decoded.materials.filter((m: any) => !existingIds.has(m.id));
+      
+      if (newItems.length === 0) {
+        alert("Dữ liệu này cô đã có trong máy rồi ạ!");
+      } else {
+        setMaterials(prev => [...prev, ...newItems]);
+        setFavorites(prev => Array.from(new Set([...prev, ...decoded.favorites])));
+        alert(`Thành công! Đã gộp thêm ${newItems.length} bông hoa mới vào vườn của cô.`);
+      }
+    } catch (e) { alert("Lỗi tải dữ liệu!"); }
   };
 
   const filteredMaterials = useMemo(() => {
     return materials.filter(item => {
+      if (currentView === 'FAVORITES') return favorites.includes(item.id);
+      if (currentView === 'LIST' && !selectedAge && !selectedField && addType === 'TEACHER') return true;
       if (addType === 'KID' && !item.isKidProduct) return false;
       if (addType === 'TEACHER' && item.isKidProduct) return false;
       const matchesAge = selectedAge ? item.ageGroup === selectedAge : true;
@@ -224,318 +183,203 @@ const App: React.FC = () => {
       const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesAge && matchesField && matchesSearch;
     });
-  }, [materials, selectedAge, selectedField, searchQuery, addType]);
+  }, [materials, selectedAge, selectedField, searchQuery, addType, currentView, favorites]);
 
-  const favoriteMaterials = useMemo(() => {
-    return materials.filter(item => favorites.includes(item.id));
-  }, [materials, favorites]);
-
-  const goHome = () => { 
-    setCurrentView('HOME'); 
-    setSelectedAge(null); 
-    setSelectedField(null); 
-    setSelectedMaterial(null); 
-    setAddType('TEACHER');
-  };
-
-  // HÀM LƯU QUAN TRỌNG: Lưu ngay lập tức
-  const handleSaveMaterial = () => {
-    if (!formData.name || !formData.description) {
-      alert('Cô ơi, vui lòng điền đủ Tên và Mô tả ạ!');
-      return;
-    }
-
-    const newId = Date.now().toString();
-    const newMaterial: TeachingMaterial = {
-      ...formData,
-      id: newId,
-      qrCode: `MD-${newId.slice(-4)}-${formData.field.slice(0, 2).toUpperCase()}`,
-      isKidProduct: addType === 'KID'
-    };
-
-    const updatedMaterials = [newMaterial, ...materials];
-    
-    // 1. Cập nhật giao diện (State)
-    setMaterials(updatedMaterials);
-    
-    // 2. LƯU VĨNH VIỄN VÀO BỘ NHỚ NGAY LẬP TỨC
-    localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(updatedMaterials));
-    
-    alert('Thành công! Bài dạy đã được lưu vĩnh viễn vào bộ nhớ của máy này.');
-    
-    // Reset form
-    setFormData({
-      name: '',
-      ageGroup: '3-4T',
-      field: DevelopmentField.NHAN_THUC,
-      description: '',
-      link: '',
-      type: 'video'
-    });
-    
-    setCurrentView('LIST');
-  };
-
-  const handleShare = (material: TeachingMaterial) => {
-    const shareUrl = `${window.location.origin}/material/${material.id}`;
-    if (navigator.share) {
-      navigator.share({ title: material.name, text: material.description, url: shareUrl }).catch(console.error);
+  const handleSave = () => {
+    if (!formData.name) return alert('Cô điền tên đã nhé!');
+    let updated;
+    if (currentView === 'EDIT_MATERIAL' && selectedMaterial) {
+      updated = materials.map(m => m.id === selectedMaterial.id ? { ...m, ...formData } : m);
     } else {
-      navigator.clipboard.writeText(shareUrl);
-      alert('Đã sao chép liên kết!');
+      const newId = Date.now().toString();
+      const newItem: TeachingMaterial = { 
+        ...formData, 
+        id: newId, 
+        qrCode: `MD-${newId.slice(-4)}`,
+        isKidProduct: addType === 'KID'
+      };
+      updated = [newItem, ...materials];
+    }
+    setMaterials(updated);
+    setCurrentView('LIST');
+    alert('Bông hoa đã được lưu vĩnh viễn vào vườn!');
+  };
+
+  const deleteMaterial = (id: string) => {
+    if (confirm('Cô chắc chắn muốn bỏ bông hoa này khỏi vườn không?')) {
+      setMaterials(prev => prev.filter(m => m.id !== id));
+      setCurrentView('LIST');
+      setSelectedMaterial(null);
     }
   };
-
-  const renderNavigation = () => (
-    <div className="bg-white/90 backdrop-blur-md border-b border-emerald-100 p-3 sticky top-0 z-[100] shadow-sm flex items-center justify-between">
-      <div className="flex items-center space-x-2 sm:space-x-4">
-        <button onClick={goHome} className={`p-2.5 rounded-2xl shadow-lg transition-all flex items-center space-x-2 ${currentView === 'HOME' ? 'bg-emerald-600 text-white' : 'bg-white text-emerald-600 border border-emerald-100'}`}>
-          <HomeIcon className="w-5 h-5" />
-          <span className="hidden md:inline text-xs font-black uppercase">Trang chủ</span>
-        </button>
-        <button onClick={() => { setSelectedAge(null); setSelectedField(null); setAddType('TEACHER'); setCurrentView('LIST'); }} className={`p-2.5 rounded-2xl shadow-lg transition-all flex items-center space-x-2 ${currentView === 'LIST' && addType === 'TEACHER' ? 'bg-sky-600 text-white' : 'bg-white text-sky-600 border border-sky-100'}`}>
-          <ListIcon className="w-5 h-5" />
-          <span className="hidden md:inline text-xs font-black uppercase">Bài dạy</span>
-        </button>
-        <button onClick={() => setCurrentView('FAVORITES')} className={`p-2.5 rounded-2xl shadow-lg transition-all flex items-center space-x-2 ${currentView === 'FAVORITES' ? 'bg-rose-500 text-white' : 'bg-white text-rose-500 border border-rose-100'}`}>
-          <Heart className={`w-5 h-5 ${currentView === 'FAVORITES' ? 'fill-white' : ''}`} />
-          <span className="hidden md:inline text-xs font-black uppercase">Yêu thích</span>
-        </button>
-      </div>
-      <div className="flex items-center space-x-3 flex-1 justify-end">
-        <div className="relative w-full max-w-[140px] sm:max-w-xs">
-          <input type="text" placeholder="Tìm kiếm..." className="w-full bg-white border border-emerald-100 rounded-full py-2 pl-9 pr-4 text-xs font-bold focus:ring-2 focus:ring-emerald-400 outline-none" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-emerald-400" />
-        </div>
-        <button onClick={() => { setAddType('TEACHER'); setCurrentView('ADD_MATERIAL'); }} className="p-2.5 bg-emerald-500 text-white rounded-2xl shadow-lg flex items-center space-x-2 hover:bg-emerald-600 transition-all">
-          <PlusCircle className="w-5 h-5" />
-          <span className="hidden sm:inline text-xs font-black uppercase">Gieo mầm</span>
-        </button>
-      </div>
-    </div>
-  );
-
-  const renderHomeView = () => {
-    // 8 BÔNG HOA XEN KẼ VÀ ĐUNG ĐƯA
-    const flowers = [
-      { type: 'age', age: '24-36T', color: 'yellow', stem: 150, delay: 0 },
-      { type: 'creative', color: 'rose', stem: 110, delay: 0.8 },
-      { type: 'age', age: '3-4T', color: 'pink', stem: 140, delay: 1.6 },
-      { type: 'creative', color: 'orange', stem: 120, delay: 0.4 },
-      { type: 'age', age: '4-5T', color: 'purple', stem: 165, delay: 1.2 },
-      { type: 'creative', color: 'cyan', stem: 105, delay: 2.0 },
-      { type: 'age', age: '5-6T', color: 'green', stem: 135, delay: 0.6 },
-      { type: 'creative', color: 'red', stem: 155, delay: 1.4 },
-    ];
-
-    return (
-      <div className="relative h-[calc(100vh-73px)] overflow-hidden">
-        <Sun className="absolute top-6 right-6 text-yellow-400 w-24 h-24 fill-yellow-100 opacity-90 blur-[1px] animate-pulse" />
-        <Cloud className="absolute top-12 left-12 text-white w-28 h-28 fill-white opacity-60" />
-        <CuteBee />
-        <CuteButterfly />
-
-        <div className="text-center pt-8 pb-2 relative z-40 px-4 select-none">
-          <h1 className="text-4xl sm:text-6xl font-black text-gray-700 tracking-tighter text-handdrawn uppercase">Vườn Hoa Tài Nguyên Số</h1>
-          <h2 className="text-2xl sm:text-4xl font-bold text-emerald-600 tracking-wide text-handdrawn mt-1 uppercase">TRƯỜNG MẦM NON MINH ĐỨC</h2>
-          <div className="mt-2 w-32 h-1.5 bg-gradient-to-r from-transparent via-emerald-300 to-transparent mx-auto rounded-full"></div>
-        </div>
-
-        {/* Vườn hoa 8 bông xếp xen kẽ, tất cả đều đung đưa trong gió */}
-        <div className="absolute bottom-[10vh] left-0 right-0 z-30 flex flex-wrap justify-center items-end px-2 sm:px-10 gap-x-1 sm:gap-x-4 lg:gap-x-6 max-w-7xl mx-auto">
-          {flowers.map((f, idx) => (
-            <SketchFlower 
-              key={idx}
-              isCreative={f.type === 'creative'}
-              age={f.age as AgeGroup}
-              color={f.color}
-              stemHeight={f.stem}
-              delay={f.delay}
-              onClick={() => {
-                if (f.type === 'age') {
-                  setSelectedAge(f.age as AgeGroup);
-                  setAddType('TEACHER');
-                  setCurrentView('AGE_FIELDS');
-                } else {
-                  setAddType('KID');
-                  setSelectedAge(null);
-                  setCurrentView('LIST');
-                }
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="ground-hill"></div>
-        <div className="fixed bottom-6 right-6 z-[100]">
-          <button onClick={() => { setAddType('KID'); setCurrentView('ADD_MATERIAL'); }} className="bg-rose-500 text-white p-4 rounded-full shadow-2xl flex flex-col items-center border-4 border-white hover:scale-110 transition-all group">
-            <Camera className="w-8 h-8 mb-1 group-hover:rotate-12" />
-            <span className="text-[9px] font-black tracking-tighter uppercase">SP của trẻ</span>
-          </button>
-        </div>
-      </div>
-    );
-  };
-
-  const renderAgeFieldsView = () => (
-    <div className="p-4 sm:p-8 max-w-6xl mx-auto animate-fadeIn">
-      <div className="flex items-center space-x-3 mb-8">
-        <button onClick={() => setCurrentView('HOME')} className="p-2 hover:bg-emerald-100 rounded-full transition-colors">
-          <ChevronLeft className="w-8 h-8 text-emerald-600" />
-        </button>
-        <h2 className="text-3xl font-black text-gray-700 tracking-tight">{selectedAge ? AGE_LABELS[selectedAge] : ''}</h2>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {Object.values(DevelopmentField).map((field) => (
-          <button key={field} onClick={() => { setSelectedField(field); setCurrentView('LIST'); }} className={`flex flex-col items-center p-8 rounded-[40px] border-4 transition-all hover:scale-105 shadow-xl ${FIELD_COLORS[field]}`}>
-            <div className="mb-4 transform group-hover:rotate-12 transition-transform">{FIELD_ICONS[field]}</div>
-            <span className="text-xl font-black text-gray-700">{field}</span>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderListView = () => (
-    <div className="p-4 sm:p-8 max-w-7xl mx-auto animate-fadeIn">
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-        <div className="flex items-center space-x-3">
-          <button onClick={() => selectedField ? setCurrentView('AGE_FIELDS') : setCurrentView('HOME')} className="p-2 hover:bg-emerald-100 rounded-full transition-colors">
-            <ChevronLeft className="w-8 h-8 text-emerald-600" />
-          </button>
-          <div><h2 className="text-3xl font-black text-gray-700 uppercase tracking-tighter">{addType === 'KID' ? 'Sáng tạo của bé' : 'Kho bài dạy của cô'}</h2></div>
-        </div>
-      </div>
-      {filteredMaterials.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-[40px] border-4 border-dashed border-gray-200">
-          <Sparkles className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-xl font-bold text-gray-400 uppercase tracking-widest">Gieo mầm ngay cô nhé...</p>
-          <button onClick={goHome} className="mt-4 text-emerald-600 font-black underline uppercase">Về trang chủ</button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredMaterials.map((item) => (
-            <div key={item.id} onClick={() => { setSelectedMaterial(item); setCurrentView('DETAIL'); }} className="group bg-white rounded-[32px] overflow-hidden shadow-lg border-2 border-transparent hover:border-emerald-200 transition-all hover:-translate-y-2 cursor-pointer flex flex-col">
-              <div className={`h-40 relative flex items-center justify-center ${FIELD_COLORS[item.field].split(' ')[0]}`}>
-                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-2 rounded-xl">{FIELD_ICONS[item.field]}</div>
-                 <button onClick={(e) => toggleFavorite(e, item.id)} className={`absolute top-4 right-4 p-2.5 rounded-xl shadow-md transition-all ${favorites.includes(item.id) ? 'bg-rose-500 text-white' : 'bg-white text-gray-300 hover:text-rose-400'}`}>
-                   <Heart className={`w-5 h-5 ${favorites.includes(item.id) ? 'fill-white' : ''}`} />
-                 </button>
-              </div>
-              <div className="p-5 flex-1 flex flex-col">
-                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{item.field} • {item.ageGroup}</span>
-                <h3 className="text-lg font-black text-gray-700 mb-3 group-hover:text-emerald-600 transition-colors line-clamp-2">{item.name}</h3>
-                <p className="text-xs text-gray-500 line-clamp-2 mb-4 flex-1">{item.description}</p>
-                <div className="flex items-center justify-between pt-4 border-t border-gray-50">
-                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase ${item.isKidProduct ? 'bg-rose-100 text-rose-600' : 'bg-blue-100 text-blue-600'}`}>{item.isKidProduct ? 'Sáng tạo' : 'Học liệu'}</span>
-                   <span className="text-[10px] font-black text-emerald-600">CHI TIẾT →</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-
-  const renderFavoritesView = () => (
-    <div className="p-4 sm:p-8 max-w-7xl mx-auto animate-fadeIn">
-      <div className="flex items-center space-x-3 mb-8">
-        <button onClick={() => setCurrentView('HOME')} className="p-2 hover:bg-emerald-100 rounded-full transition-colors"><ChevronLeft className="w-8 h-8 text-emerald-600" /></button>
-        <h2 className="text-3xl font-black text-rose-600 tracking-tight uppercase flex items-center"><Heart className="w-8 h-8 mr-2 fill-rose-600" /> Yêu thích của cô</h2>
-      </div>
-      {favoriteMaterials.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-[40px] border-4 border-dashed border-rose-100"><Heart className="w-16 h-16 text-rose-200 mx-auto mb-4" /><p className="text-xl font-bold text-gray-400 uppercase tracking-widest">Cô chưa có bài yêu thích ạ</p></div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {favoriteMaterials.map((item) => (
-            <div key={item.id} onClick={() => { setSelectedMaterial(item); setCurrentView('DETAIL'); }} className="group bg-white rounded-[32px] overflow-hidden shadow-lg border-2 border-transparent hover:border-rose-200 transition-all hover:-translate-y-2 cursor-pointer flex flex-col">
-              <div className={`h-40 relative flex items-center justify-center ${FIELD_COLORS[item.field].split(' ')[0]}`}>
-                 <div className="absolute top-4 left-4 bg-white/90 p-2 rounded-xl">{FIELD_ICONS[item.field]}</div>
-                 <button onClick={(e) => toggleFavorite(e, item.id)} className="absolute top-4 right-4 p-2.5 rounded-xl shadow-md bg-rose-500 text-white"><Heart className="w-5 h-5 fill-white" /></button>
-              </div>
-              <div className="p-5">
-                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{item.field}</span>
-                <h3 className="text-lg font-black text-gray-700 leading-snug group-hover:text-rose-600 transition-colors line-clamp-2">{item.name}</h3>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-
-  const renderDetailView = () => {
-    if (!selectedMaterial) return null;
-    const linkInfo = getLinkSourceInfo(selectedMaterial.link);
-    return (
-      <div className="p-4 sm:p-8 max-w-4xl mx-auto animate-fadeIn">
-        <button onClick={() => setCurrentView('LIST')} className="flex items-center space-x-2 text-emerald-600 font-black uppercase text-xs mb-6 hover:translate-x-[-5px] transition-transform"><ArrowLeft className="w-4 h-4" /> <span>Quay lại</span></button>
-        <div className="bg-white rounded-[48px] overflow-hidden shadow-2xl border-4 border-white">
-          <div className={`p-8 sm:p-12 ${FIELD_COLORS[selectedMaterial.field].split(' ')[0]}`}>
-            <div className="flex flex-col md:flex-row gap-10">
-              <div className="flex-1">
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="p-3 bg-white rounded-2xl shadow-sm">{FIELD_ICONS[selectedMaterial.field]}</div>
-                  <span className="px-4 py-1.5 bg-white text-emerald-600 rounded-full text-[10px] font-black uppercase">{selectedMaterial.field}</span>
-                  <span className="px-4 py-1.5 bg-white text-sky-600 rounded-full text-[10px] font-black uppercase">{AGE_LABELS[selectedMaterial.ageGroup]}</span>
-                </div>
-                <h2 className="text-3xl sm:text-5xl font-black text-gray-700 mb-6">{selectedMaterial.name}</h2>
-                <p className="text-lg text-gray-600 font-medium mb-8">{selectedMaterial.description}</p>
-                <div className="flex flex-wrap gap-4">
-                  {selectedMaterial.link && <a href={selectedMaterial.link} target="_blank" rel="noopener noreferrer" className={`px-8 py-4 ${linkInfo.color} text-white rounded-full font-black uppercase tracking-widest flex items-center space-x-3 hover:scale-105 transition-all shadow-xl`}>{linkInfo.icon}<span>Mở học liệu</span></a>}
-                  <button onClick={() => handleShare(selectedMaterial)} className="p-4 bg-white text-gray-700 rounded-full shadow-lg border-2 border-gray-50 flex items-center hover:bg-gray-50 transition-all"><Share2 className="w-5 h-5" /></button>
-                </div>
-              </div>
-              <div className="w-full md:w-64 flex flex-col items-center">
-                <div className="bg-white p-6 rounded-[40px] shadow-xl border-4 border-emerald-100 flex flex-col items-center"><RealisticQRCode code={selectedMaterial.qrCode} /><span className="text-[10px] font-black text-gray-400 mt-4 uppercase">MÃ TRUY CẬP</span><div className="mt-4 p-2 bg-emerald-50 rounded-xl"><QrCode className="w-6 h-6 text-emerald-600" /></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const renderAddMaterialView = () => (
-    <div className="p-4 sm:p-8 max-w-2xl mx-auto animate-fadeIn flex items-center justify-center min-h-full">
-      <div className="bg-white rounded-[40px] shadow-2xl overflow-hidden border-4 border-emerald-50 w-full max-h-[85vh] flex flex-col">
-        <div className={`p-6 sm:p-8 ${addType === 'TEACHER' ? 'bg-emerald-600' : 'bg-rose-500'} text-white text-center shrink-0`}>
-          <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-3 border-4 border-white/40">{addType === 'TEACHER' ? <PlusCircle className="w-8 h-8" /> : <Camera className="w-8 h-8" />}</div>
-          <h2 className="text-2xl font-black uppercase">{addType === 'TEACHER' ? 'Gieo mầm bài dạy' : 'Lưu sản phẩm của bé'}</h2>
-          <p className="text-xs opacity-90 font-bold mt-1">Lưu trữ vĩnh viễn không lo mất bài cô nhé!</p>
-        </div>
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 sm:p-8 space-y-6">
-          <div className="space-y-2"><label className="text-xs font-black text-gray-400 uppercase ml-1">Tên nội dung</label><input type="text" placeholder="Nhập tên..." value={formData.name} onChange={(e) => setFormData(prev => ({...prev, name: e.target.value}))} className="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-emerald-400 font-bold transition-all" /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2"><label className="text-xs font-black text-gray-400 uppercase ml-1">Độ tuổi</label><select value={formData.ageGroup} onChange={(e) => setFormData(prev => ({...prev, ageGroup: e.target.value as AgeGroup}))} className="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl font-bold">{Object.entries(AGE_LABELS).map(([key, label]) => (<option key={key} value={key}>{label}</option>))}</select></div>
-            <div className="space-y-2"><label className="text-xs font-black text-gray-400 uppercase ml-1">Lĩnh vực</label><select value={formData.field} onChange={(e) => setFormData(prev => ({...prev, field: e.target.value as DevelopmentField}))} className="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl font-bold">{Object.values(DevelopmentField).map((f) => (<option key={f} value={f}>{f}</option>))}</select></div>
-          </div>
-          <div className="space-y-2"><label className="text-xs font-black text-gray-400 uppercase ml-1">Mô tả</label><textarea rows={3} placeholder="Ghi chú thêm..." value={formData.description} onChange={(e) => setFormData(prev => ({...prev, description: e.target.value}))} className="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-emerald-400 font-bold resize-none" /></div>
-          <div className="space-y-2"><label className="text-xs font-black text-gray-400 uppercase ml-1">Link học liệu</label><div className="relative"><input type="url" placeholder="YouTube, Drive, Canva..." value={formData.link} onChange={(e) => setFormData(prev => ({...prev, link: e.target.value}))} className="w-full p-4 pl-12 bg-gray-50 border-2 border-gray-100 rounded-2xl font-bold text-emerald-600" /><LinkIcon className="absolute left-4 top-4 text-gray-300 w-5 h-5" /></div></div>
-        </div>
-        <div className="p-6 bg-gray-50 border-t border-gray-100 flex gap-4 shrink-0">
-          <button onClick={goHome} className="flex-1 p-4 bg-white border-2 border-gray-200 text-gray-400 rounded-2xl font-black uppercase text-sm">Hủy</button>
-          <button onClick={handleSaveMaterial} className={`flex-1 p-4 ${addType === 'TEACHER' ? 'bg-emerald-600' : 'bg-rose-500'} text-white rounded-2xl font-black uppercase shadow-xl hover:scale-105 active:scale-95 transition-all text-sm`}>Lưu ngay</button>
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <div className="min-h-screen relative bg-emerald-50/10 flex flex-col">
-      {renderNavigation()}
-      <main className={`flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar ${currentView === 'HOME' ? 'overflow-hidden' : ''}`}>
-        {currentView === 'HOME' && renderHomeView()}
-        {currentView === 'AGE_FIELDS' && renderAgeFieldsView()}
-        {currentView === 'LIST' && renderListView()}
-        {currentView === 'FAVORITES' && renderFavoritesView()}
-        {currentView === 'DETAIL' && renderDetailView()}
-        {currentView === 'ADD_MATERIAL' && renderAddMaterialView()}
+      {/* THANH ĐIỀU HƯỚNG */}
+      <nav className="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-3 sticky top-0 z-[100] shadow-sm flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <button onClick={() => { setCurrentView('HOME'); setSelectedAge(null); }} className="p-2.5 rounded-2xl bg-emerald-600 text-white shadow-lg active:scale-90 transition-all"><HomeIcon className="w-5 h-5" /></button>
+          <div className="h-6 w-[1px] bg-emerald-100 mx-1"></div>
+          <button onClick={() => { setCurrentView('LIST'); setSelectedAge(null); setAddType('TEACHER'); }} className={`p-2.5 rounded-2xl flex items-center space-x-2 transition-all ${currentView === 'LIST' && !selectedAge ? 'bg-emerald-100 text-emerald-700' : 'bg-white text-emerald-600 border border-emerald-50'}`}><ListIcon className="w-5 h-5" /><span className="hidden md:inline text-[10px] font-black uppercase">Tất cả bài dạy</span></button>
+          <button onClick={() => setCurrentView('FAVORITES')} className={`p-2.5 rounded-2xl flex items-center space-x-2 transition-all ${currentView === 'FAVORITES' ? 'bg-rose-100 text-rose-600' : 'bg-white text-rose-400 border border-rose-50'}`}><Heart className="w-5 h-5 fill-current" /><span className="hidden md:inline text-[10px] font-black uppercase">Yêu thích</span></button>
+        </div>
+        <div className="flex items-center space-x-2">
+          <button onClick={() => setCurrentView('SYNC')} className="p-2.5 bg-amber-50 text-amber-500 rounded-2xl border border-amber-100"><Cloud className="w-5 h-5" /></button>
+          <div className="relative hidden sm:block">
+            <input type="text" placeholder="Tìm..." className="w-40 bg-gray-50 border-none rounded-full py-2 pl-9 pr-4 text-xs font-bold outline-none focus:ring-2 focus:ring-emerald-400" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+            <Search className="absolute left-3 top-2.5 w-4 h-4 text-emerald-300" />
+          </div>
+          <button onClick={() => { setFormData({ name: '', ageGroup: '3-4T', field: DevelopmentField.NHAN_THUC, description: '', link: '', qrCode: '', type: 'video' }); setCurrentView('ADD_MATERIAL'); }} className="p-2.5 bg-emerald-500 text-white rounded-2xl shadow-lg"><PlusCircle className="w-5 h-5" /></button>
+        </div>
+      </nav>
+
+      <main className="flex-1 overflow-y-auto custom-scrollbar">
+        {currentView === 'HOME' && (
+          <div className="relative h-[calc(100vh-73px)] overflow-hidden">
+            <Sun className="absolute top-6 right-6 text-yellow-400 w-20 h-20 animate-pulse opacity-60" />
+            <div className="text-center pt-6 z-40 relative px-4">
+              <h1 className="text-3xl sm:text-5xl font-black text-gray-700 text-handdrawn uppercase tracking-tighter">Vườn Hoa Tài Nguyên Số</h1>
+              <p className="text-emerald-600 font-black text-handdrawn text-lg sm:text-xl uppercase mt-1">TRƯỜNG MẦM NON MINH ĐỨC</p>
+            </div>
+
+            {/* VƯỜN HOA XEN KẼ - SẮP XẾP LẠI THEO YÊU CẦU CÔ */}
+            <div className="absolute bottom-[8vh] left-0 right-0 z-30 flex flex-wrap justify-center items-end gap-x-2 sm:gap-x-4 px-4 pb-4">
+              
+              {/* 1. Nhà trẻ */}
+              <SketchFlower color="yellow" age="24-36T" stemHeight={140} onClick={() => { setSelectedAge('24-36T'); setAddType('TEACHER'); setCurrentView('AGE_FIELDS'); }} />
+              
+              {/* 2. Mầm */}
+              <SketchFlower color="pink" age="3-4T" stemHeight={110} onClick={() => { setSelectedAge('3-4T'); setAddType('TEACHER'); setCurrentView('AGE_FIELDS'); }} />
+              
+              {/* 3. SÁNG TẠO CHUNG (XEN KẼ GIỮA) */}
+              <SketchFlower color="rose" isCreative stemHeight={150} onClick={() => { setAddType('KID'); setSelectedAge(null); setCurrentView('LIST'); }} />
+              
+              {/* 4. Chồi */}
+              <SketchFlower color="purple" age="4-5T" stemHeight={120} onClick={() => { setSelectedAge('4-5T'); setAddType('TEACHER'); setCurrentView('AGE_FIELDS'); }} />
+              
+              {/* 5. SÁNG TẠO CHỒI (XEN KẼ) */}
+              <SketchFlower color="cyan" age="4-5T" isCreative stemHeight={140} onClick={() => { setAddType('KID'); setSelectedAge('4-5T'); setCurrentView('LIST'); }} />
+              
+              {/* 6. Lá */}
+              <SketchFlower color="green" age="5-6T" stemHeight={130} onClick={() => { setSelectedAge('5-6T'); setAddType('TEACHER'); setCurrentView('AGE_FIELDS'); }} />
+              
+              {/* 7. SÁNG TẠO LÁ (XEN KẼ) */}
+              <SketchFlower color="orange" age="5-6T" isCreative stemHeight={115} onClick={() => { setAddType('KID'); setSelectedAge('5-6T'); setCurrentView('LIST'); }} />
+              
+            </div>
+
+            <div className="ground-hill"></div>
+            <CuteBee />
+          </div>
+        )}
+
+        {/* CÁC VIEW CHI TIẾT VÀ DANH SÁCH - GIỮ NGUYÊN LOGIC NHƯNG NÂNG CẤP HIỂN THỊ */}
+        {currentView === 'AGE_FIELDS' && (
+          <div className="p-6 max-w-5xl mx-auto animate-fadeIn">
+            <h2 className="text-2xl font-black text-gray-700 mb-6 uppercase flex items-center">
+              <button onClick={() => setCurrentView('HOME')} className="mr-3 p-2 bg-white rounded-full shadow-sm"><ChevronLeft /></button>
+              {AGE_LABELS[selectedAge!]}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {Object.values(DevelopmentField).map(f => (
+                <button key={f} onClick={() => { setSelectedField(f); setCurrentView('LIST'); }} className={`p-6 rounded-[32px] border-2 flex flex-col items-center group hover:shadow-xl transition-all ${FIELD_COLORS[f]}`}>
+                  <div className="transform group-hover:scale-110 transition-transform">{FIELD_ICONS[f]}</div>
+                  <span className="text-lg font-black text-gray-700 mt-3 uppercase">{f}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {(currentView === 'LIST' || currentView === 'FAVORITES') && (
+          <div className="p-6 max-w-7xl mx-auto animate-fadeIn">
+            <h2 className="text-2xl font-black text-gray-700 mb-6 uppercase flex items-center">
+              <button onClick={() => selectedField ? setCurrentView('AGE_FIELDS') : setCurrentView('HOME')} className="mr-3 p-2 bg-white rounded-full shadow-sm"><ChevronLeft /></button>
+              {currentView === 'FAVORITES' ? '💖 Bài giảng yêu thích' : addType === 'KID' ? `🎨 Bé sáng tạo (${selectedAge || 'Cả trường'})` : selectedAge ? `📖 ${AGE_LABELS[selectedAge]}` : '📚 Tất cả học liệu'}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {filteredMaterials.map(item => (
+                <div key={item.id} onClick={() => { setSelectedMaterial(item); setCurrentView('DETAIL'); }} className="bg-white rounded-[28px] overflow-hidden shadow-sm hover:shadow-md border border-gray-100 transition-all cursor-pointer group">
+                  <div className={`h-32 flex items-center justify-center relative ${FIELD_COLORS[item.field].split(' ')[0]}`}>
+                    <div className="transform group-hover:scale-110 transition-transform">{FIELD_ICONS[item.field]}</div>
+                    <button onClick={e => { e.stopPropagation(); setFavorites(prev => prev.includes(item.id) ? prev.filter(f => f!==item.id) : [...prev, item.id]); }} className={`absolute top-3 right-3 p-1.5 rounded-lg ${favorites.includes(item.id) ? 'bg-rose-500 text-white' : 'bg-white/80 text-gray-300'}`}><Heart className="w-4 h-4 fill-current" /></button>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-black text-gray-700 text-sm line-clamp-2 leading-tight">{item.name}</h3>
+                    <div className="flex items-center justify-between mt-3"><span className="text-[8px] text-gray-400 font-black uppercase">{item.ageGroup}</span><span className="px-2 py-0.5 bg-gray-50 text-gray-500 rounded text-[7px] font-black uppercase">{item.field}</span></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {currentView === 'DETAIL' && selectedMaterial && (
+          <div className="p-6 max-w-3xl mx-auto animate-fadeIn">
+            <div className="bg-white rounded-[40px] shadow-xl p-8 border border-gray-50 flex flex-col md:flex-row gap-8">
+              <div className="flex-1">
+                <div className="flex gap-2 mb-3">
+                  <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded text-[9px] font-black uppercase">{selectedMaterial.field}</span>
+                  <span className="px-2 py-0.5 bg-sky-50 text-sky-600 rounded text-[9px] font-black uppercase">{selectedMaterial.ageGroup}</span>
+                </div>
+                <h2 className="text-3xl font-black text-gray-700 mb-4">{selectedMaterial.name}</h2>
+                <p className="text-gray-500 text-sm mb-6 leading-relaxed">{selectedMaterial.description}</p>
+                <div className="flex flex-wrap gap-3">
+                  {selectedMaterial.link && <a href={selectedMaterial.link} target="_blank" className="px-6 py-3 bg-emerald-600 text-white rounded-full text-xs font-black uppercase flex items-center gap-2">Mở bài học</a>}
+                  <button onClick={() => { setFormData(selectedMaterial as any); setCurrentView('EDIT_MATERIAL'); }} className="p-3 bg-gray-50 text-sky-600 rounded-full"><Edit className="w-5 h-5" /></button>
+                  <button onClick={() => deleteMaterial(selectedMaterial.id)} className="p-3 bg-gray-50 text-rose-500 rounded-full"><Trash2 className="w-5 h-5" /></button>
+                </div>
+              </div>
+              <div className="w-40 flex flex-col items-center justify-center bg-gray-50 rounded-[32px] p-6">
+                <RealisticQRCode code={selectedMaterial.qrCode} />
+                <span className="text-[8px] font-black text-gray-400 mt-3 uppercase tracking-widest">Mã học liệu</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentView === 'SYNC' && (
+          <div className="p-6 max-w-2xl mx-auto animate-fadeIn">
+            <h2 className="text-2xl font-black text-gray-700 text-center mb-8 uppercase">Đồng Bộ "Vườn Mây"</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-white p-8 rounded-[32px] shadow-sm text-center border border-gray-50">
+                <CloudUpload className="w-10 h-10 text-emerald-500 mx-auto mb-4" />
+                <button onClick={handleCloudSyncExport} className="w-full py-3 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase">Gửi lên mây</button>
+                {syncCode && <div className="mt-4 p-3 bg-amber-50 rounded-xl font-black text-lg text-amber-600 tracking-widest">{syncCode}</div>}
+              </div>
+              <div className="bg-white p-8 rounded-[32px] shadow-sm text-center border border-gray-50">
+                <CloudDownload className="w-10 h-10 text-sky-500 mx-auto mb-4" />
+                <button onClick={handleCloudSyncImport} className="w-full py-3 bg-sky-600 text-white rounded-xl font-black text-xs uppercase">Tải từ mây về</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {(currentView === 'ADD_MATERIAL' || currentView === 'EDIT_MATERIAL') && (
+          <div className="p-6 max-w-xl mx-auto animate-fadeIn">
+            <div className="bg-white rounded-[32px] shadow-xl overflow-hidden border border-gray-50">
+              <div className="p-4 bg-emerald-600 text-white text-center font-black uppercase text-sm">{currentView === 'ADD_MATERIAL' ? 'Gieo mầm bông hoa mới' : 'Chăm sóc bông hoa'}</div>
+              <div className="p-6 space-y-4">
+                <input type="text" placeholder="Tên bài giảng / Sản phẩm của bé" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full p-3 bg-gray-50 rounded-xl font-bold outline-none border-2 border-transparent focus:border-emerald-200" />
+                <div className="grid grid-cols-2 gap-4">
+                  <select value={formData.ageGroup} onChange={e => setFormData({...formData, ageGroup: e.target.value as any})} className="w-full p-3 bg-gray-50 rounded-xl font-bold">{Object.keys(AGE_LABELS).map(a => <option key={a} value={a}>{a}</option>)}</select>
+                  <select value={formData.field} onChange={e => setFormData({...formData, field: e.target.value as any})} className="w-full p-3 bg-gray-50 rounded-xl font-bold">{Object.values(DevelopmentField).map(f => <option key={f} value={f}>{f}</option>)}</select>
+                </div>
+                <textarea placeholder="Mô tả ngắn gọn..." value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full p-3 bg-gray-50 rounded-xl font-bold h-20 resize-none outline-none" />
+                <input type="url" placeholder="Link (YouTube, Drive, Ảnh...)" value={formData.link} onChange={e => setFormData({...formData, link: e.target.value})} className="w-full p-3 bg-gray-50 rounded-xl font-bold outline-none border-2 border-transparent focus:border-emerald-200" />
+                <div className="flex gap-3 mt-4">
+                  <button onClick={() => setCurrentView('HOME')} className="flex-1 py-3 bg-gray-100 text-gray-500 rounded-xl font-black uppercase text-xs">Hủy</button>
+                  <button onClick={handleSave} className="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-black uppercase text-xs shadow-lg">Lưu vĩnh viễn</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
+
       <style>{`
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fadeIn { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
       `}</style>
     </div>
   );

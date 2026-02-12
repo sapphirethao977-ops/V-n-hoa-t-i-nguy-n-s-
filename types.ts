@@ -18,7 +18,7 @@ export interface TeachingMaterial {
   link: string;
   qrCode: string;
   type: 'video' | 'image' | 'file' | 'audio' | 'word' | 'excel' | 'pdf';
-  isKidProduct?: boolean; // Thuộc tính mới để phân biệt SP của trẻ
+  isKidProduct?: boolean;
 }
 
-export type ViewState = 'HOME' | 'AGE_FIELDS' | 'LIST' | 'DETAIL' | 'FAVORITES' | 'ADD_MATERIAL';
+export type ViewState = 'HOME' | 'AGE_FIELDS' | 'LIST' | 'DETAIL' | 'FAVORITES' | 'ADD_MATERIAL' | 'EDIT_MATERIAL' | 'SYNC';
