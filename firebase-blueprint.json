@@ -1,0 +1,58 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the application, typically a teacher or admin.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique identifier of the user." },
+        "email": { "type": "string", "format": "email", "description": "The user's email address." },
+        "displayName": { "type": "string", "description": "The user's full name." },
+        "role": { "type": "string", "enum": ["admin", "teacher"], "description": "The user's role." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the user was created." }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    },
+    "Resource": {
+      "title": "Resource",
+      "description": "A digital learning resource.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "The title of the resource." },
+        "description": { "type": "string", "description": "A description of the resource." },
+        "type": { "type": "string", "enum": ["document", "video", "image", "link"], "description": "The type of resource." },
+        "url": { "type": "string", "format": "uri", "description": "The URL to access the resource." },
+        "categoryId": { "type": "string", "description": "The ID of the category this resource belongs to." },
+        "authorUid": { "type": "string", "description": "The UID of the user who created the resource." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the resource was created." }
+      },
+      "required": ["title", "type", "url", "categoryId", "authorUid", "createdAt"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "A category for organizing resources.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The name of the category." },
+        "color": { "type": "string", "description": "The hex color code for the category." },
+        "authorUid": { "type": "string", "description": "The UID of the user who created the category." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the category was created." }
+      },
+      "required": ["name", "color", "authorUid", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles and roles."
+    },
+    "/resources/{resourceId}": {
+      "schema": { "$ref": "#/entities/Resource" },
+      "description": "Stores digital learning resources."
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Stores resource categories."
+    }
+  }
+}

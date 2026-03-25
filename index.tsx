@@ -1,16 +1,17 @@
-
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
+import { createRoot } from 'react-dom/client';
+import App from './src/App';
+import './index.css';
+import { ErrorBoundary } from './src/components/ErrorBoundary';
 
 const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
-}
+if (!rootElement) throw new Error('Failed to find the root element');
+const root = createRoot(rootElement);
 
-const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>
 );
